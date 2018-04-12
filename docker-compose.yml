@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    volumes:
+      - data:/var/lib/mysql
+      - bundle:/usr/local/bundle
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  web:
+    build: .
+    volumes:
+      - .:/myapp:cached
+    ports:
+      - "3000:3000"
+      - "3035:3035"
+    depends_on:
+      - db
+    tty: true
+    environment:
+      - TZ=Japan
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_sock:/tmp
+      - redis_data:/data
+
+volumes:
+  data:
+  bundle:
+  redis_sock:
+  redis_data:
