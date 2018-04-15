@@ -1,11 +1,10 @@
 Rails.application.configure do
   config.serviceworker.routes.draw do
     # map to assets implicitly
-    match "/serviceworker.js"
     match "/manifest.json"
 
     # maps to serviceworker "pack" compiled by Webpacker
-    match "/webpack-serviceworker.js" => "serviceworker.js", pack: true
+    match "/webpack-serviceworker.js" => "packs/serviceworker.js", pack: true
 
     # Examples
     #
